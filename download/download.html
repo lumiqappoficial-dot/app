@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumiq – Todo lo que necesitas, en un solo lugar</title>
+<meta name="description" content="Lumiq: chat, billetera, compras, delivery, transporte y pago de servicios en una sola app. Descarga la versión 1.0.1 para Android.">
+<style>
+  :root{
+    --bg:#050a2e; --bg2:#0a1250; --card:#0d1a6b;
+    --blue:#2a6bff; --cyan:#22d3ee; --violet:#7c4dff;
+    --text:#eef2ff; --muted:#9db0ff; --gold:#fbbf24; --green:#34d399;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+    color:var(--text);
+    background:radial-gradient(1200px 600px at 80% -10%,#2b1fb8 0%,transparent 60%),
+               radial-gradient(900px 500px at -10% 10%,#0b3bd1 0%,transparent 55%),
+               var(--bg);
+    min-height:100vh; line-height:1.6;
+  }
+  a{color:inherit;text-decoration:none}
+  .container{width:min(1100px,92%);margin:0 auto}
+
+  /* NAV */
+  header{position:sticky;top:0;z-index:10;backdrop-filter:blur(12px);
+    background:rgba(5,10,46,.7);border-bottom:1px solid rgba(124,77,255,.25)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:1.5rem}
+  .logo{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--cyan),var(--violet));
+    box-shadow:0 0 18px rgba(34,211,238,.5);font-weight:800}
+  nav ul{display:flex;gap:26px;list-style:none;align-items:center}
+  nav a{color:var(--muted);font-weight:500;transition:.2s}
+  nav a:hover{color:#fff}
+
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:999px;
+    font-weight:700;font-size:1rem;border:1.5px solid transparent;cursor:pointer;transition:.25s}
+  .btn-primary{background:linear-gradient(135deg,var(--blue),var(--violet));
+    box-shadow:0 0 24px rgba(42,107,255,.55);color:#fff}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 36px rgba(124,77,255,.75)}
+  .btn-ghost{border-color:rgba(157,176,255,.5);color:var(--text)}
+  .btn-ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+  .btn-sm{padding:9px 20px;font-size:.9rem}
+
+  /* HERO */
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:80px 0 60px}
+  .badge{display:inline-block;padding:6px 16px;border-radius:999px;font-size:.85rem;
+    color:var(--cyan);border:1px solid rgba(34,211,238,.5);background:rgba(34,211,238,.08);margin-bottom:20px}
+  h1{font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.1;margin-bottom:18px}
+  h1 span{background:linear-gradient(90deg,var(--cyan),var(--violet));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:var(--muted);font-size:1.15rem;max-width:520px;margin-bottom:30px}
+  .cta{display:flex;gap:14px;flex-wrap:wrap}
+  .meta{margin-top:18px;font-size:.88rem;color:var(--muted)}
+
+  /* PHONE MOCK */
+  .phone{width:290px;margin:0 auto;border-radius:38px;padding:14px;
+    background:linear-gradient(160deg,#1a2bd1,#4b1fb8);
+    box-shadow:0 0 50px rgba(42,107,255,.55),inset 0 0 0 2px rgba(255,255,255,.12)}
+  .screen{border-radius:28px;background:var(--bg);padding:18px 14px;min-height:470px}
+  .screen h4{font-size:1.1rem}
+  .screen small{color:var(--cyan)}
+  .mini{margin-top:12px;padding:12px;border-radius:14px;border:1px solid rgba(124,77,255,.5);
+    background:linear-gradient(135deg,rgba(42,107,255,.25),rgba(124,77,255,.2));font-size:.85rem}
+  .mini b{display:block;font-size:.95rem}
+  .mini .amt{color:var(--cyan);font-size:1.3rem;font-weight:800}
+
+  /* SECTIONS */
+  section{padding:70px 0}
+  .section-title{text-align:center;margin-bottom:46px}
+  .section-title h2{font-size:clamp(1.7rem,3.5vw,2.4rem);margin-bottom:10px}
+  .section-title p{color:var(--muted)}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .card{padding:26px;border-radius:20px;border:1.5px solid rgba(42,107,255,.6);
+    background:linear-gradient(150deg,rgba(13,26,107,.9),rgba(40,20,120,.6));
+    box-shadow:0 0 22px rgba(42,107,255,.2);transition:.25s}
+  .card:hover{transform:translateY(-6px);border-color:var(--cyan);box-shadow:0 0 30px rgba(34,211,238,.35)}
+  .ico{width:54px;height:54px;border-radius:14px;display:grid;place-items:center;font-size:1.6rem;margin-bottom:16px;
+    background:linear-gradient(135deg,#2a6bff,#7c4dff)}
+  .card h3{margin-bottom:6px}
+  .card p{color:var(--muted);font-size:.95rem}
+
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;counter-reset:s}
+  .step{padding:26px;border-radius:20px;background:rgba(13,26,107,.55);border:1px solid rgba(157,176,255,.2);position:relative}
+  .step::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:38px;height:38px;
+    border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--blue));font-weight:800;margin-bottom:14px;color:#04103a}
+  .step p{color:var(--muted);font-size:.95rem}
+
+  .download-box{text-align:center;padding:56px 24px;border-radius:28px;
+    border:1.5px solid rgba(124,77,255,.6);
+    background:radial-gradient(600px 240px at 50% 0%,rgba(124,77,255,.35),transparent),rgba(13,26,107,.7);
+    box-shadow:0 0 40px rgba(124,77,255,.3)}
+  .download-box h2{font-size:clamp(1.6rem,3.5vw,2.3rem);margin-bottom:10px}
+  .download-box p{color:var(--muted);margin-bottom:26px}
+
+  footer{border-top:1px solid rgba(124,77,255,.25);padding:30px 0;color:var(--muted);font-size:.9rem}
+  .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr;text-align:center;padding-top:50px}
+    .hero p{margin-inline:auto}.cta{justify-content:center}
+    .grid,.steps{grid-template-columns:1fr}
+    nav ul li:not(:last-child){display:none}
+  }
+  @media(min-width:861px) and (max-width:1000px){.grid,.steps{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#inicio" class="brand"><span class="logo">L</span>Lumiq</a>
+    <nav>
+      <ul>
+        <li><a href="#funciones">Funciones</a></li>
+        <li><a href="#como-funciona">Cómo funciona</a></li>
+        <li><a href="download/download.html" class="btn btn-primary btn-sm">Descargar</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="inicio">
+  <div class="container hero">
+    <div>
+      <span class="badge">✨ Versión 1.0.1 disponible para Android</span>
+      <h1>Todo lo que necesitas, <span>en un solo lugar</span></h1>
+      <p>Lumiq reúne chat, billetera, compras, delivery, transporte y pago de servicios en una sola aplicación, simple, rápida y segura.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="download/download.html">⬇ Descargar app</a>
+        <a class="btn btn-ghost" href="#funciones">Ver funciones</a>
+      </div>
+      <p class="meta">Gratis · Android · Instalación directa con APK</p>
+    </div>
+
+    <div class="phone" aria-hidden="true">
+      <div class="screen">
+        <h4>Hola, Limber</h4>
+        <small>Todo lo que necesitas, en un solo lugar</small>
+        <div class="mini"><b>💬 Chat y contactos</b>Habla, comparte y mantente en contacto</div>
+        <div class="mini"><b>👛 Billetera Lumiq</b><span class="amt">Bs 591,00</span><br>Depósito, transferir y retirar</div>
+        <div class="mini"><b>🛍 Compras / Tienda</b>Productos, servicios y mucho más</div>
+        <div class="mini"><b>🛵 Delivery / Comida</b>Restaurantes, pedidos y envíos</div>
+      </div>
+    </div>
+  </div>
+
+  <section id="funciones">
+    <div class="container">
+      <div class="section-title">
+        <h2>Una app, todas tus necesidades</h2>
+        <p>Descubre todo lo que puedes hacer con Lumiq.</p>
+      </div>
+      <div class="grid">
+        <article class="card"><div class="ico">💬</div><h3>Chat y contactos</h3><p>Habla, comparte y mantente en contacto con tus personas favoritas.</p></article>
+        <article class="card"><div class="ico">👛</div><h3>Billetera Lumiq</h3><p>Deposita, transfiere y retira tu dinero de forma rápida y segura.</p></article>
+        <article class="card"><div class="ico">🛒</div><h3>Compras / Tienda</h3><p>Encuentra productos y servicios, y compra sin salir de la app.</p></article>
+        <article class="card"><div class="ico">🍔</div><h3>Delivery / Comida</h3><p>Pide a tus restaurantes favoritos y recibe tus envíos donde estés.</p></article>
+        <article class="card"><div class="ico">🚗</div><h3>Transporte</h3><p>Viaja seguro y rápido con solo unos toques.</p></article>
+        <article class="card"><div class="ico">💡</div><h3>Servicios y pagos</h3><p>Paga luz, agua, internet y más desde tu billetera.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="como-funciona">
+    <div class="container">
+      <div class="section-title">
+        <h2>Empieza en 3 pasos</h2>
+        <p>Instalar Lumiq es muy fácil.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><h3>Descarga</h3><p>Entra a la página de descarga y obtén el APK de la versión 1.0.1.</p></div>
+        <div class="step"><h3>Instala</h3><p>Abre el archivo en tu Android y permite la instalación desde orígenes desconocidos.</p></div>
+        <div class="step"><h3>Disfruta</h3><p>Crea tu cuenta, recarga tu billetera y usa todos los servicios.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="download-box">
+        <h2>Descarga Lumiq hoy</h2>
+        <p>Versión 1.0.1 · Android</p>
+        <a class="btn btn-primary" href="download/download.html">⬇ Ir a la descarga</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container foot">
+    <span>© 2026 Lumiq. Todos los derechos reservados.</span>
+    <span>Versión actual: 1.0.1</span>
+  </div>
+</footer>
+
+</body>
+</html>
